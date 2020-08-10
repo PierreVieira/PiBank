@@ -30,8 +30,10 @@ class ContactsList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => ContactForm()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(
+                  builder: (BuildContext context) => ContactForm()))
+              .then((newContact) => debugPrint(newContact.toString()));
         },
         child: Icon(
           Icons.add,
