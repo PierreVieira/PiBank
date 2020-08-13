@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pibank/database/app_database.dart';
 import 'package:pibank/models/contact.dart';
 import 'package:pibank/screens/contact_form.dart';
 
@@ -8,25 +9,28 @@ class ContactsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    contacts.add(Contact(0, 'alex', 1000));
-    contacts.add(Contact(0, 'alex', 1000));
-    contacts.add(Contact(0, 'alex', 1000));
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          final Contact contact = contacts[index];
-          return _ContactItem(contact);
+      body: FutureBuilder(
+        future: findAll(),
+        builder: (context, snapshot) {
+          final List<Contact> contacts = snapshot.data;
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              final Contact contact = contacts[index];
+              return _ContactItem(contact);
+            },
+            itemCount: contacts.length,
+          );
         },
-        itemCount: contacts.length,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
-                  builder: (BuildContext context) => ContactForm()))
+              builder: (BuildContext context) => ContactForm()))
               .then((newContact) => debugPrint(newContact.toString()));
         },
         child: Icon(
