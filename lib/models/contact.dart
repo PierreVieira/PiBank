@@ -1,11 +1,16 @@
-class Contact{
-  final String nome;
+class Contact {
+  final String name;
   final int accountNumber;
+  final int id;
 
-  Contact(this.nome, this.accountNumber);
+  Contact(
+    this.id,
+    this.name,
+    this.accountNumber,
+  );
 
   @override
   String toString() {
-    return 'Contact{nome: $nome, accountNumber: $accountNumber}';
+    return 'Contact{id: $id nome: $name, accountNumber: $accountNumber}';
   }
 }
