@@ -4,7 +4,6 @@ import 'package:pibank/models/contact.dart';
 import 'package:pibank/screens/contact_form.dart';
 
 class ContactsList extends StatelessWidget {
-
   final List<Contact> contacts = List();
 
   @override
@@ -13,14 +12,45 @@ class ContactsList extends StatelessWidget {
       appBar: AppBar(
         title: Text('Contacts'),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<List<Contact>>(
+        initialData: List(),
         future: findAll(),
         builder: (context, snapshot) {
           final List<Contact> contacts = snapshot.data;
           return ListView.builder(
             itemBuilder: (BuildContext context, int index) {
-              final Contact contact = contacts[index];
-              return _ContactItem(contact);
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  // O Future ainda não foi executado
+                  break;
+                case ConnectionState.waiting:
+                // Estado em que verifica se o Future ainda está carregando
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        Text('Loading...'),
+                      ],
+                    ),
+                  );
+                case ConnectionState.active:
+                  /* Significa que o snapshot tem um dado disponível, mas ainda não
+              foi finalizado o future, acontece quando temos algo que traz pedaços
+              de uma chamada assíncrona, como por exemplo, um download*/
+                  break;
+                case ConnectionState.done:
+                  final List<Contact> contacts = snapshot.data;
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      final Contact contact = contacts[index];
+                      return _ContactItem(contact);
+                    },
+                    itemCount: contacts.length,
+                  );
+              }
+              return Text("Unknown error!");
             },
             itemCount: contacts.length,
           );
@@ -30,7 +60,7 @@ class ContactsList extends StatelessWidget {
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
-              builder: (BuildContext context) => ContactForm()))
+                  builder: (BuildContext context) => ContactForm()))
               .then((newContact) => debugPrint(newContact.toString()));
         },
         child: Icon(

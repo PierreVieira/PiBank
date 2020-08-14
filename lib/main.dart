@@ -5,7 +5,6 @@ import 'screens/dashboard.dart';
 
 void main() {
   runApp(PiBank());
-  save(Contact(0, 'Fran', 1000));
 }
 
 class PiBank extends StatelessWidget {
