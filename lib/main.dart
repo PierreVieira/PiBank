@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pibank/models/contact.dart';
-import 'database/app_database.dart';
 import 'screens/dashboard.dart';
 
 void main() {

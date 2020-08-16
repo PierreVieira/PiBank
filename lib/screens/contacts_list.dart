@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pibank/database/app_database.dart';
+import 'package:pibank/database/dao/contact_dao.dart';
 import 'package:pibank/models/contact.dart';
 import 'package:pibank/screens/contact_form.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+  @override
+  _ContactsListState createState() => _ContactsListState();
+}
+
+class _ContactsListState extends State<ContactsList> {
   final List<Contact> contacts = List();
+  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +20,14 @@ class ContactsList extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: findAll(),
+        future: _dao.findAll(),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState){
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
-            // O Future ainda não foi executado
+              // O Future ainda não foi executado
               break;
             case ConnectionState.waiting:
-            // Estado em que verifica se o Future ainda está carregando
+              // Estado em que verifica se o Future ainda está carregando
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +39,7 @@ class ContactsList extends StatelessWidget {
                 ),
               );
             case ConnectionState.active:
-            /* Significa que o snapshot tem um dado disponível, mas ainda não
+              /* Significa que o snapshot tem um dado disponível, mas ainda não
               foi finalizado o future, acontece quando temos algo que traz pedaços
               de uma chamada assíncrona, como por exemplo, um download*/
               break;
@@ -49,14 +55,15 @@ class ContactsList extends StatelessWidget {
           }
           return Text("Unknown error!");
         },
-
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
                   builder: (BuildContext context) => ContactForm()))
-              .then((newContact) => debugPrint(newContact.toString()));
+              .then((newContact) {
+            setState(() {});
+          });
         },
         child: Icon(
           Icons.add,
