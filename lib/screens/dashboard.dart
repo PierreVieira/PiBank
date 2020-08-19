@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pibank/screens/contacts_list.dart';
+import 'package:pibank/screens/transactions_list.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -28,7 +29,7 @@ class Dashboard extends StatelessWidget {
                   _FeatureItem(
                     'Transaction Feed',
                     Icons.description,
-                    onClick: () => print('Transaction feed clicked!'),
+                    onClick: () => _showTransactionsList(context),
                   ),
                 ],
               ),
@@ -42,6 +43,12 @@ class Dashboard extends StatelessWidget {
   void _showContactsList(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => ContactsList()),
+    );
+  }
+
+  _showTransactionsList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => TransactionsList()),
     );
   }
 }

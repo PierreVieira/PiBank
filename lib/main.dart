@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pibank/http/webclient.dart';
 import 'screens/dashboard.dart';
 
 void main() {
   runApp(PiBank());
+  findAll();
 }
 
 class PiBank extends StatelessWidget {
