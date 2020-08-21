@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pibank/components/progress.dart';
 import 'package:pibank/database/dao/contact_dao.dart';
 import 'package:pibank/models/contact.dart';
 import 'package:pibank/screens/contact_form.dart';
@@ -28,16 +29,7 @@ class _ContactsListState extends State<ContactsList> {
               break;
             case ConnectionState.waiting:
               // Estado em que verifica se o Future ainda está carregando
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text('Loading...'),
-                  ],
-                ),
-              );
+              return Progress();
             case ConnectionState.active:
               /* Significa que o snapshot tem um dado disponível, mas ainda não
               foi finalizado o future, acontece quando temos algo que traz pedaços

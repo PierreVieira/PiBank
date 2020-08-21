@@ -4,7 +4,7 @@ import 'screens/dashboard.dart';
 
 void main() {
   runApp(PiBank());
-  findAll();
+  findAll().then((transactions) => print('new transactions $transactions'));
 }
 
 class PiBank extends StatelessWidget {
