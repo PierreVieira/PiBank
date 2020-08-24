@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pibank/http/webclient.dart';
 import 'screens/dashboard.dart';
 
 void main() {
   runApp(PiBank());
-  findAll().then((transactions) => print('new transactions $transactions'));
 }
 
 class PiBank extends StatelessWidget {
